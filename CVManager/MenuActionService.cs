@@ -10,6 +10,11 @@ namespace CVManager
     {
         private List<MenuAction> menuActions;
 
+        public MenuActionService()
+        {
+            menuActions = new List<MenuAction>();
+        }
+
         public void AddNewAction(int id, string name, string menuName)
         {
             MenuAction menuAction = new MenuAction() { Id = id, Name = name, MenuName = menuName };

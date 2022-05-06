@@ -11,8 +11,8 @@
 //// C. Usunięcie z listy
 /// 3. Sprawdzenie bazy danych kandydatów
 //// A. Wskazanie id lub nazwy kandydata
-//// B. Wyświetlenie wszystkich informacji zw. z kandydatem
-/// 4. Zwrócenie listy CV po zadanym filtrze kategorii
+//// B. Wyświetlenie wszystkich informacji zw. z kandydatem wraz z nazwą kategorii
+/// 4. Zwrócenie listy kandydatów po zadanym filtrze kategorii
 //// A. Wskazanie nazwy lub kategorii
 //// B. Wyświetlenie listy
 
@@ -21,32 +21,42 @@ using CVManager;
 MenuActionService actionService = new MenuActionService();
 actionService = Initialize(actionService);
 
+CandidateService candidateService = new CandidateService();
 
 Console.WriteLine("Welcome to CVManager console app!");
-Console.WriteLine("Please select the operation:");
-var mainMenu = actionService.GetMenuActionsByMenuName("Main");
-for (int i = 0; i < mainMenu.Count; i++)
-{
-    Console.WriteLine($"{mainMenu[i].Id}. {mainMenu[i].Name}");
-}
 
-var operation = Console.ReadKey();
-CandidateService candidateService = new CandidateService();
-switch (operation.KeyChar)
+while (true)
 {
-    case '1':
-        var keyInfo = candidateService.AddNewCandidateView(actionService);
-        var candidateId = candidateService.AddNewCandidate(keyInfo.KeyChar);
-        break;
-    case '2':
-        break;
-    case '3':
-        break;
-    case '4':
-        break;
-    default:
-        Console.WriteLine("Invalid action chosen.");
-        break;
+
+    Console.WriteLine("Please select the operation:");
+    var mainMenu = actionService.GetMenuActionsByMenuName("Main");
+    for (int i = 0; i < mainMenu.Count; i++)
+    {
+        Console.WriteLine($"{mainMenu[i].Id}. {mainMenu[i].Name}");
+    }
+
+    var operation = Console.ReadKey();
+
+    switch (operation.KeyChar)
+    {
+        case '1':
+            var keyInfo = candidateService.AddNewCandidateView(actionService);
+            var candidateId = candidateService.AddNewCandidate(keyInfo.KeyChar);
+            break;
+        case '2':
+            var removeId = candidateService.RemoveCandidateView(actionService);
+            candidateService.RemoveCandidate(removeId);
+            break;
+        case '3':
+            var showId = candidateService.ShowCandidateView(actionService);
+            candidateService.ShowCandidate(showId);
+            break;
+        case '4':
+            break;
+        default:
+            Console.WriteLine("Invalid action chosen.");
+            break;
+    }
 }
 
 static MenuActionService Initialize(MenuActionService actionService)
