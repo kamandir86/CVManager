@@ -52,6 +52,8 @@ while (true)
             candidateService.ShowCandidate(showId);
             break;
         case '4':
+            var typeId = candidateService.CandidateTypeSelectionView(actionService);
+            candidateService.CandidatesByTypeIdView(typeId);
             break;
         default:
             Console.WriteLine("Invalid action chosen.");
